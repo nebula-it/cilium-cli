@@ -52,6 +52,7 @@ local-release: clean
 				-o release/$(TARGET)-$$OS-$$ARCH$$EXT ./cmd/cilium; \
 			# tar -czf release/$(TARGET)-$$OS-$$ARCH.tar.gz -C release/$$OS/$$ARCH $(TARGET)$$EXT; \
 			(cd release && sha256sum $(TARGET)-$$OS-$$ARCH$$EXT > $(TARGET)-$$OS-$$ARCH$$EXT.sha256sum); \
+			sha256sum $(TARGET)-$$OS-$$ARCH$$EXT;\
 		done; \
 		# rm -rf release/$$OS; \
 	done; \
