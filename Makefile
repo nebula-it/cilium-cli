@@ -39,12 +39,6 @@ local-release: clean
 		EXT=; \
 		ARCHS=; \
 		case $$OS in \
-			darwin) \
-				ARCHS='amd64 arm64'; \
-				;; \
-			linux) \
-				ARCHS='386 amd64 arm arm64'; \
-				;; \
 			windows) \
 				ARCHS='386 amd64 arm64'; \
 				EXT=".exe"; \
@@ -55,11 +49,11 @@ local-release: clean
 			test -d release/$$OS/$$ARCH|| mkdir -p release/$$OS/$$ARCH; \
 			env GOOS=$$OS GOARCH=$$ARCH $(GO_BUILD) $(if $(GO_TAGS),-tags $(GO_TAGS)) \
 				-ldflags "-w -s -X 'github.com/cilium/cilium-cli/cli.Version=${VERSION}'" \
-				-o release/$$OS/$$ARCH/$(TARGET)$$EXT ./cmd/cilium; \
-			tar -czf release/$(TARGET)-$$OS-$$ARCH.tar.gz -C release/$$OS/$$ARCH $(TARGET)$$EXT; \
-			(cd release && sha256sum $(TARGET)-$$OS-$$ARCH.tar.gz > $(TARGET)-$$OS-$$ARCH.tar.gz.sha256sum); \
+				-o release/$(TARGET)-$$OS-$$ARCH$$EXT ./cmd/cilium; \
+			# tar -czf release/$(TARGET)-$$OS-$$ARCH.tar.gz -C release/$$OS/$$ARCH $(TARGET)$$EXT; \
+			(cd release && sha256sum $(TARGET)-$$OS-$$ARCH$$EXT > $(TARGET)-$$OS-$$ARCH$$EXT.sha256sum); \
 		done; \
-		rm -rf release/$$OS; \
+		# rm -rf release/$$OS; \
 	done; \
 
 install: $(TARGET)
